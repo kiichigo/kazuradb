@@ -1,0 +1,18 @@
+[project]
+name = "kazura"
+version = "0.1.0"
+description = "KazuraDB: SQLite-backed relationship graph DB prototype for AI agents"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["PyYAML>=6.0"]
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.0.0"]
+
+[project.scripts]
+kazura = "kazura.cli:main"
+kazura-mcp = "kazura.mcp_server:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

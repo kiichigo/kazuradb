@@ -1,0 +1,39 @@
+name: work_notes
+description: Minimal profile for works, people, organizations, and concepts.
+
+node_kinds:
+  person:
+    description: A human creator, composer, author, etc.
+  organization:
+    description: A company, studio, group, or institution.
+  work:
+    description: A creative work such as a book, film, game, article, etc.
+  concept:
+    description: A motif, idea, term, or concept appearing in a work.
+
+edge_types:
+  created:
+    description: A person or organization created a work.
+    source_kinds: [person, organization]
+    target_kinds: [work]
+
+  produced:
+    description: An organization produced a work.
+    source_kinds: [organization]
+    target_kinds: [work]
+
+  composed_music_for:
+    description: A person composed music for a work.
+    source_kinds: [person]
+    target_kinds: [work]
+
+  features:
+    description: A work features a concept.
+    source_kinds: [work]
+    target_kinds: [concept]
+
+  related_to:
+    description: A loose symmetric relation between entities.
+    source_kinds: [person, organization, work, concept]
+    target_kinds: [person, organization, work, concept]
+    symmetric: true
