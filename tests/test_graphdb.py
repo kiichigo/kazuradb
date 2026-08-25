@@ -17,6 +17,24 @@ def test_nodes_edges_and_edge_search():
     assert found["count"] == 2
 
 
+def test_add_node_updates_props_by_key():
+    db = GraphDB()
+    db.add_node("agent:alice", "Alice", kind="person", props={"role": "planner", "team": "research"})
+
+    updated = db.add_node("agent:alice", props={"role": "reviewer", "timezone": "UTC"})
+
+    assert updated["props"] == {"role": "reviewer", "team": "research", "timezone": "UTC"}
+
+
+def test_add_node_without_props_preserves_existing_props():
+    db = GraphDB()
+    db.add_node("agent:alice", props={"role": "planner"})
+
+    updated = db.add_node("agent:alice", "Alice")
+
+    assert updated["props"] == {"role": "planner"}
+
+
 def test_neighbors_support_depth_and_direction():
     db = GraphDB()
     db.add_edge("a", "knows", "b")

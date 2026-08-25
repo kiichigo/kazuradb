@@ -55,7 +55,11 @@ class GraphDB:
 
     def add_node(self, key: str, label: str | None = None, kind: str = "entity", props: dict[str, Any] | None = None) -> dict[str, Any]:
         self._validate_key(key, "node key")
-        props_json = self._dumps(props or {})
+        existing = self.conn.execute("SELECT props_json FROM nodes WHERE key = ?", (key,)).fetchone()
+        merged_props = props or {}
+        if existing is not None:
+            merged_props = {**self._loads(existing["props_json"]), **merged_props}
+        props_json = self._dumps(merged_props)
         self.conn.execute(
             """
             INSERT INTO nodes(key, label, kind, props_json) VALUES (?, ?, ?, ?)
